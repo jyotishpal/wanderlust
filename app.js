@@ -25,7 +25,7 @@ const MongoStore = require('connect-mongo');
 const store=MongoStore.create({
     mongoUrl:dbUrl,
     crypto: {
-    secret: "process.env.SECRET",
+    secret: process.env.SECRET,
   },
    touchAfter: 24 * 3600, // time period in seconds automatically restore the in 24 hours
 })
@@ -35,7 +35,7 @@ store.on("error",()=>{
 //creating option
 const sessionOption={
     store,
-    secret:"process.env.SECRET",
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true,
     cookie:{
@@ -190,6 +190,9 @@ app.use("/",userRouter);
 
 
 
+app.get("/", (req, res) => {
+    res.redirect("/listings"); // Or whatever your home page is
+});
 
 
 
@@ -211,7 +214,7 @@ app.use((err,req,res,next)=>{
 
 
 //Starting the api to a specific port for taking response
-let port=8080;
+let port=process.env.PORT;
 app.listen(port,(req,res)=>{
     console.log(`port is listening on port ${port}`);
 });
