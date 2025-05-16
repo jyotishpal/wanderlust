@@ -1,136 +1,24 @@
-<!-- removing all the thing except body and importing th layouts --> 
-
- <% layout("/layouts/boilerplate")-%>
-<body>
-<!-- <script>
-const mapToken = "<%= process.env.MAP_TOKEN %>";
-
-</script> -->
-    <div class="row">
-        <div class="col-8 offset-3 mt-3">
-            <h2><%=listing.title%></h2>
-        </div>
-   
-    <div class="col-6 offset-3 show-card  listing-card">
-    <div class="card">
-        <img src="<%=listing.image.url%>" class="card-img-top show-img" alt="listing_image">
-        <div class="card-body">
-            <!-- for the owner -->
-            <p class="card-text">
-               Owend by <i> <%=listing.owner.username %></i>
-            </p>
-
-          <p class="card-text">
-            
-            <%=listing.description%></p>
-            <p class="card-text">
-            &#8377;<%=listing.price.toLocaleString("en-IN")%></p>
-            <p class="card-text">
-            <%=listing.location%></p>
-            <p class="card-text">
-            <%=listing.country%></p>
-
-
-        
-        </div>
-    </div>
-</div>
-
-</div>
-
-<div class="btns ">
-    <a href="/listings/<%=listing._id%>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>
-
-    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-        <button type="submit" class="btn btn-dark offset-5">Delete</button>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wanderlust</title>
+  </head>
+  <body>
+    <h3>Listing Details :</h3>
+    <ul>
+      <li><%= listing.title %></li>
+      <li><%= listing.description %></li>
+      <li>&#8377; <%= listing.price.toLocaleString("en-IN") %></li>
+      <li><%= listing.location %></li>
+      <li><%= listing.country %></li>
+    </ul>
+    <br />
+    <a href="/listings/<%= listing._id %>/edit">Edit this Listing</a>
+    <br /><br />
+    <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
+      <button>Delete this listing</button>
     </form>
-</div>
-
-<hr>
-<!--creating a review form -->
-<div class="col-8 offset-3 mt-3">
-    <%if(currUser){%>
-    <h4>Leave a Review</h4>
-    <form action="/listings/<%= listing._id %>/reviews"  method="POST" novalidate class="needs-validation">
-        
-        <div class="mt-3 mb-3">
-        <label for="rating" class="form-label">Ratings</label>
-        <fieldset class="starability-slot">
-       
-        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
-        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-        <label for="first-rate1" title="Terrible">1 star</label>
-        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-        <label for="first-rate2" title="Not good">2 stars</label>
-        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-        <label for="first-rate3" title="Average">3 stars</label>
-        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-        <label for="first-rate4" title="Very good">4 stars</label>
-        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-        <label for="first-rate5" title="Amazing">5 stars</label>
-        </fieldset>
-        </div>
-        <div class="mt-3 mb-3">
-            <label for="comment"class="form-label" >Comment</label>
-            <textarea name="review[comment]" id="comment" cols="50" rows="5" class="form-control" required></textarea>
-            
-            <div class="invalid-feedback">Please add some comment for review</div>
-        
-        </div>
-        
-        <div class="mt-3 mb-3">
-            <button class="btn btn-outline-dark ">Submit</button>
-        </div>
-    </form>
-    <%}%>
-</div>
-<%if(listing.reviews.length>0){%>
-<h3 class="name"><b>All Reviews</b></h3>
-
-    <div class="row name">
-       <%for(let reviews of listing.reviews){%>
-           <div class="col-md-5 ms-3 mb-3 ">
-            <div class="card h-100 shadow-sm">
-            <div class="card-body d-flex flex-column justify-content-between">
-                <h5 class="card-title ms-2">
-                <% if(reviews.author) { %>
-                <%= reviews.author.username %>
-                <% } else { %>
-                   Anonymous
-                 <% } %>
-                 </h5>
-               
-                
-                <p class="starability-result card-tex" data-rating="<%=reviews.rating%>">
-                
-                 </p>
-                  <p class="card-text ms-2"><%=reviews.comment%></p>
-                  <!-- Only show delete button if user is the author of the review -->
-                <% if(currUser && reviews.author && currUser._id.equals(reviews.author._id)) { %>
-                
-                <form 
-                
-                method="POST" 
-                action="/listings/<%= listing._id %>/reviews/<%= reviews._id %>?_method=DELETE">
-                <button class="btn btn-sm btn-dark mt-2 mb-2 ms-2">Delete</button>
-                </form>
-                   <% } %>
-            </div>
-           </div>
-         
-        </div>
-           <%}%>
-    
-        </div>
-         <%}%>
-        <!-- Mapbox Api -->
-
-  <!-- <div class="col-8 offset-3 mb-3">
-    <h3>where you'll be</h3>
-    
-    <div id="map"></div>
-    
-    </div> -->
-       
-</body>
-<!-- <script src="/js/map.js"></script> -->
+  </body>
+</html>
