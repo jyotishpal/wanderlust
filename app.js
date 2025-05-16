@@ -197,6 +197,9 @@ app.use("/",userRouter);
 // app.get("/",(req,res)=>{
 //     res.send("it is working");
 // })
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 
 //it will work for all not existing route
 app.all("*",(req,res,next)=>{
@@ -211,7 +214,7 @@ app.use((err,req,res,next)=>{
 
 
 //Starting the api to a specific port for taking response
-let port=8080;
+let port = process.env.PORT || 8080;
 app.listen(port,(req,res)=>{
     console.log(`port is listening on port ${port}`);
 });
